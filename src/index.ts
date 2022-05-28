@@ -24,6 +24,7 @@ const main = async () => {
 		})
 	)
 	app.use(multer().single(''))
+	app.use(express.urlencoded())
 
 	app.use('/', async (req, _, next) => {
 		try {
