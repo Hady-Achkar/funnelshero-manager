@@ -1,12 +1,10 @@
 import {Funnels, OptSubmits} from '../models'
-import {Response} from 'express'
-import {CustomRequest, AddOptSubmits} from '../types'
-export const InsertNewOptSubmit = async (
-	req: CustomRequest<AddOptSubmits>,
-	res: Response
-) => {
+import {Response, Request} from 'express'
+import nodemailer from 'nodemailer'
+export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 	try {
-		const {email, fullname, funnelTitle, phone} = req.body
+		const {targetEmail} = req.query
+		const {email, name, phone} = req.body
 		if (!email || email === '') {
 			return res.status(400).json({
 				status: 'Failure',
@@ -19,13 +17,13 @@ export const InsertNewOptSubmit = async (
 				requestTime: new Date().toISOString(),
 			})
 		}
-		if (!fullname || fullname === '') {
+		if (!name || name === '') {
 			return res.status(400).json({
 				status: 'Failure',
 				errors: [
 					{
-						name: 'missing fullname',
-						field: 'fullname',
+						name: 'missing name',
+						field: 'name',
 					},
 				],
 				requestTime: new Date().toISOString(),
@@ -43,37 +41,34 @@ export const InsertNewOptSubmit = async (
 				requestTime: new Date().toISOString(),
 			})
 		}
-		if (!funnelTitle || funnelTitle === '') {
-			return res.status(400).json({
-				status: 'Failure',
-				errors: [
-					{
-						name: 'missing funnelTitle',
-						field: 'funnelTitle',
-					},
-				],
-				requestTime: new Date().toISOString(),
-			})
-		}
-		const _verifyFunnel = await Funnels.findOne({
-			title: funnelTitle,
+
+		const transporter = nodemailer.createTransport({
+			service: 'gmail',
+			host: 'smtp.gmail.com',
+			port: 587,
+			secure: false,
+			auth: {
+				user: 'funnelshero.email@gmail.com',
+				pass: 'HadiAsh123',
+			},
 		})
-		if (!_verifyFunnel) {
-			return res.status(404).json({
-				status: 'Failure',
-				message: 'Funnel was not found',
-				requestTime: new Date().toISOString(),
-			})
-		}
-		await OptSubmits.create({
-			email,
-			fullname,
-			funnel: _verifyFunnel._id,
-			phone,
+
+		const html = `<div>Name: ${name}</div><br /><div>Email Address: ${email}</div><br /><div>Phone Number: ${phone}</div>`
+		const info = await transporter.sendMail({
+			from: '"Funnelshero" <funnelshero.email@gmail.com>', // sender address
+			to: `hady.achkar@hotmail.com, ${targetEmail}`, // list of receivers
+			subject: 'New Lead!', // Subject line
+			html: html, // html body
 		})
+
+		console.log('Message sent: %s', info.messageId)
+		// Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+		// Preview only available when sending through an Ethereal account
+		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
 		return res.status(204).json({
 			status: 'Success',
-			message: 'OptSubmit was created successfully',
+			message: 'Email was sent successfully',
 			requestTime: new Date().toISOString(),
 		})
 	} catch (err) {
