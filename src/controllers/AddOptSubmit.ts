@@ -5,7 +5,18 @@ export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 	try {
 		const {targetEmail} = req.query
 		const {email, name, phone} = req.body
-
+		if (!email || email === '') {
+			return res.status(400).json({
+				status: 'Failure',
+				errors: [
+					{
+						name: 'missing email',
+						field: 'email',
+					},
+				],
+				requestTime: new Date().toISOString(),
+			})
+		}
 		if (!name || name === '') {
 			return res.status(400).json({
 				status: 'Failure',
