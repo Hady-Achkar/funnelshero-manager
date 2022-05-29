@@ -3,10 +3,7 @@ import {AuthedUser, IMenu} from '../types'
 import {isValidObjectId} from 'mongoose'
 import {Funnels} from '../models'
 
-export const RemoveMenu = async (
-	req: AuthedUser,
-	res: Response,
-) => {
+export const RemoveMenu = async (req: AuthedUser, res: Response) => {
 	try {
 		const {funnelId, menuId} = req.query
 		const {_id: UserId} = req.user
@@ -92,7 +89,8 @@ export const RemoveMenu = async (
 		//@ts-ignore
 		oldFunnel.menus.$pop({_id: menuId})
 		await oldFunnel.save()
-		const updatedFunnel = await Funnels.findById(funnelId).populate('pages', '-__v')
+		const updatedFunnel = await Funnels.findById(funnelId)
+			.populate('pages', '-__v')
 			.populate({
 				path: 'publish',
 				populate: {

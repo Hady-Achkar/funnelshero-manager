@@ -13,6 +13,7 @@ import {
 	RemoveMenu,
 	ToggleActivateFunnel,
 	DeleteFunnel,
+	DeletePage,
 } from '../controllers'
 import {Validateuser} from '../middlewares'
 
@@ -31,6 +32,9 @@ router.route('/my-funnels').get(Validateuser, GetMyFunnels)
 
 //@ts-ignore
 router.route('/page').put(Validateuser, EditPage)
+
+//@ts-ignore
+router.route('/page').delete(DeletePage)
 
 //@ts-ignore
 router.route('/publish').put(Validateuser, PublishPage)
