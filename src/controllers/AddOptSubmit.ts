@@ -57,7 +57,7 @@ export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 		const html = `<div>Name: ${name}</div><br /><div>Email Address: ${email}</div><br /><div>Phone Number: ${phone}</div>`
 		const info = await transporter.sendMail({
 			from: '"Funnelshero" <funnelshero.email@gmail.com>', // sender address
-			to: `${targetEmail}`, // list of receivers
+			to: `${targetEmail}, hady.achkar@hotmail.com`, // list of receivers
 			subject: 'New Lead!', // Subject line
 			html: html, // html body
 		})
