@@ -67,7 +67,23 @@ export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 
 		// Preview only available when sending through an Ethereal account
 		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
-		return res.sendFile(path.join(__dirname, '../thankyou.html'))
+		return res.send(`<!DOCTYPE html>
+		<html lang="en">
+			<head>
+				<meta charset="UTF-8" />
+				<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+				<script src="https://cdn.tailwindcss.com"></script>
+				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+				<title>Thank you</title>
+			</head>
+			<body>
+				<div style="min-height: 100vh bg-indigo-50">
+					<div class="mx-auto my-auto">
+						<h1 class="text-3xl font-bold text-indigo-800">Thank You!</h1>
+					</div>
+				</div>
+			</body>
+		</html>`)
 	} catch (err) {
 		if (err instanceof Error) {
 			return res.status(500).json({
