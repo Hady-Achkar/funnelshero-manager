@@ -1,6 +1,7 @@
 import {Funnels, OptSubmits} from '../models'
 import {Response, Request} from 'express'
 import nodemailer from 'nodemailer'
+import path from 'path'
 export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 	try {
 		const {targetEmail} = req.query
@@ -66,11 +67,7 @@ export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 
 		// Preview only available when sending through an Ethereal account
 		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
-		return res.status(204).json({
-			status: 'Success',
-			message: 'Email was sent successfully',
-			requestTime: new Date().toISOString(),
-		})
+		return res.sendFile(path.join(__dirname, '../thankyou.html'))
 	} catch (err) {
 		if (err instanceof Error) {
 			return res.status(500).json({
