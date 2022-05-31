@@ -77,7 +77,7 @@ export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 				<title>Thank you</title>
 			</head>
 			<body>
-				<div class="bg-indigo h-full w-full">
+				<div class="bg-indigo w-full" style="min-height:100vh; display:flex;">
 					<div class="mx-auto my-auto">
 						<h1 class="text-3xl font-bold text-indigo-800">Thank You!</h1>
 					</div>
