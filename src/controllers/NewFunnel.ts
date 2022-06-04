@@ -1,13 +1,10 @@
 import {Funnels, Pages, Users} from '../models'
-import {Response} from 'express'
+import {Response, Request} from 'express'
 import {AddFunnel, AuthUserBody} from '../types'
 import InitialPage from '../assets/initialPage.json'
-export const NewFunnel = async (
-	req: AuthUserBody<AddFunnel>,
-	res: Response
-) => {
+export const NewFunnel = async (req: Request, res: Response) => {
 	try {
-		const {category, title} = req.body
+		const {category, title, image} = req.body
 		if (!category || category === '') {
 			return res.status(400).json({
 				status: 'Failure',
@@ -32,6 +29,7 @@ export const NewFunnel = async (
 				requestTime: new Date().toISOString(),
 			})
 		}
+		//@ts-ignore
 		const {_id: UserId} = req.user
 		const _page = await Pages.create({
 			title: 'Home',
@@ -60,6 +58,7 @@ export const NewFunnel = async (
 		const _placeHolderFunnel = await Funnels.create({
 			category,
 			title,
+			image,
 			owner: UserId,
 			pages: [_page._id],
 			contactEmail: _user.email,
