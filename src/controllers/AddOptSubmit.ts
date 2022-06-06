@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer'
 import path from 'path'
 export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 	try {
-		const {targetEmail} = req.query
+		const {targetEmail, funnelId} = req.query
 		const {email, name, phone} = req.body
 		if (!email || email === '') {
 			return res.status(400).json({
@@ -43,6 +43,19 @@ export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 			})
 		}
 
+		const _submit = await OptSubmits.create({
+			email: email,
+			fullname: name,
+			phone: phone,
+			funnel: funnelId,
+		})
+
+		if (!_submit) {
+			return res.status(400).json({
+				message: 'Bad Request',
+			})
+		}
+
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
 			host: 'smtp.gmail.com',
@@ -67,23 +80,7 @@ export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 
 		// Preview only available when sending through an Ethereal account
 		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
-		return res.send(`<!DOCTYPE html>
-		<html lang="en">
-			<head>
-				<meta charset="UTF-8" />
-				<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-				<script src="https://cdn.tailwindcss.com"></script>
-				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-				<title>Thank you</title>
-			</head>
-			<body>
-				<div class="bg-indigo w-full" style="min-height:100vh; display:flex;">
-					<div class="mx-auto my-auto">
-						<h1 class="text-6xl font-bolder text-indigo-800">Thank You!</h1>
-					</div>
-				</div>
-			</body>
-		</html>`)
+		return res.status(204)
 	} catch (err) {
 		if (err instanceof Error) {
 			return res.status(500).json({
