@@ -5,6 +5,7 @@ import path from 'path'
 export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 	try {
 		const {targetEmail, funnelId} = req.query
+		console.log(funnelId)
 		const {email, name, phone} = req.body
 		if (!email || email === '') {
 			return res.status(400).json({
@@ -43,19 +44,6 @@ export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 			})
 		}
 
-		const _submit = await OptSubmits.create({
-			email: email,
-			fullname: name,
-			phone: phone,
-			funnel: funnelId,
-		})
-
-		if (!_submit) {
-			return res.status(400).json({
-				message: 'Bad Request',
-			})
-		}
-
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
 			host: 'smtp.gmail.com',
@@ -74,13 +62,24 @@ export const InsertNewOptSubmit = async (req: Request, res: Response) => {
 			subject: 'New Lead!', // Subject line
 			html: html, // html body
 		})
+		const _submit = await OptSubmits.create({
+			email: email,
+			fullname: name,
+			phone: phone,
+			funnel: funnelId,
+		})
 
-		console.log('Message sent: %s', info.messageId)
-		// Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+		if (!_submit) {
+			return res.status(400).json({
+				message: 'Bad Request',
+			})
+		}
 
-		// Preview only available when sending through an Ethereal account
-		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
-		return res.status(204)
+		console.log(_submit)
+
+		return res.status(204).json({
+			message: 'Successfully added',
+		})
 	} catch (err) {
 		if (err instanceof Error) {
 			return res.status(500).json({
