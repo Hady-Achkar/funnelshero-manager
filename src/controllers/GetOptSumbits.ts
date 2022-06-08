@@ -2,15 +2,9 @@ import {Request, Response} from 'express'
 import {OptSubmits} from '../models'
 
 export default async (req: Request, res: Response) => {
+	const {funnelId} = req.body
+
 	try {
-		const {funnelId} = req.body
-
-		if (!funnelId) {
-			return res.status(400).json({
-				message: 'funnelId was not found',
-			})
-		}
-
 		const _submits = await OptSubmits.find({funnel: funnelId})
 
 		if (!_submits) {
