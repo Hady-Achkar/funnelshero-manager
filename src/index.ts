@@ -36,6 +36,11 @@ const main = async () => {
 			console.log(error)
 		}
 	})
+	app.use(
+		fileUpload({
+			limits: {},
+		})
+	)
 	app.use(bodyParser.json())
 	app.use('/', IndexRouter)
 	app.listen(process.env.MAIN_PORT, () => {

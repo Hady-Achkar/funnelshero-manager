@@ -15,6 +15,11 @@ import {
 	DeleteFunnel,
 	DeletePage,
 	GetOptSumbits,
+	EditFunnel,
+	CreateFunnelFromTemplate,
+	MakeFunnelAsTemplate,
+	GetAllTemplates,
+	UploadFile,
 } from '../controllers'
 import {Validateuser} from '../middlewares'
 
@@ -56,7 +61,22 @@ router.route('/menu').put(Validateuser, EditMenu)
 router.route('/funnel').delete(Validateuser, DeleteFunnel)
 
 //@ts-ignore
+router.route('/funnel').put(Validateuser, EditFunnel)
+
+//@ts-ignore
 router.route('/opt-form').post(InsertNewOptSubmit)
+
+//@ts-ignore
+router.route('/template').post(MakeFunnelAsTemplate)
+
+//@ts-ignore
+router.route('/template').get(GetAllTemplates)
+
+//@ts-ignore
+router.route('/template/funnel').post(CreateFunnelFromTemplate)
+
+//@ts-ignore
+router.route('/upload').post(UploadFile)
 
 //@ts-ignore
 router.route('/submits').get(GetOptSumbits)
