@@ -1,12 +1,11 @@
 import {Document} from 'mongoose'
+import {MenuSchema} from '../models/Funnel'
 
 export interface ITemplate extends Document {
 	title: string
-	data: string
-	isPublished: boolean
-	lastPublish: Date
-	publishedData: {
-		title: string
-		data: string
-	}
+	pages: string[]
+	image: string
+	category: string
+	thumbnail: string
+	menus: [typeof MenuSchema]
 }

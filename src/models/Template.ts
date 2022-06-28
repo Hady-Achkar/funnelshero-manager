@@ -1,5 +1,6 @@
 import {Schema, model} from 'mongoose'
 import {ITemplate} from '../types'
+import {MenuSchema} from './Funnel'
 
 const TemplateSchema = new Schema<ITemplate>(
 	{
@@ -13,36 +14,14 @@ const TemplateSchema = new Schema<ITemplate>(
 			type: String,
 			trim: true,
 		},
+		thumbnail: {
+			type: String,
+			trim: true,
+		},
 		category: {
 			type: String,
 			required: true,
 			trim: true,
-		},
-		baseDomain: {
-			type: String,
-			trim: true,
-		},
-		proDomain: {
-			type: String,
-			trim: true,
-			default: '',
-		},
-		favIcon: {
-			type: String,
-			trim: true,
-			default: process.env.FUNNELS_FAV_ICON || '',
-		},
-		isActive: {
-			type: Boolean,
-			default: false,
-		},
-		publish: {
-			pages: [
-				{
-					type: Schema.Types.Mixed,
-					ref: 'Page',
-				},
-			],
 		},
 		pages: [
 			{
@@ -50,15 +29,7 @@ const TemplateSchema = new Schema<ITemplate>(
 				ref: 'Page',
 			},
 		],
-		contactEmail: {
-			type: String,
-			required: true,
-			trim: true,
-		},
-		allowedNotifications: {
-			type: Boolean,
-			default: true,
-		},
+		menus: [MenuSchema],
 	},
 	{
 		timestamps: true,

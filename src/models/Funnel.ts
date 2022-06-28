@@ -26,7 +26,7 @@ const FunnelUsersSchema = new Schema<FunnelUser>(
 		minimize: false,
 	}
 )
-const MenuSchema = new Schema<IMenu>(
+export const MenuSchema = new Schema<IMenu>(
 	{
 		title: {
 			type: String,
