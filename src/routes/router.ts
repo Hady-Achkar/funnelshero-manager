@@ -15,6 +15,7 @@ import {
 	DeleteFunnel,
 	DeletePage,
 	GetOptSumbits,
+	EditFunnel,
 } from '../controllers'
 import {Validateuser} from '../middlewares'
 
@@ -54,6 +55,9 @@ router.route('/menu').put(Validateuser, EditMenu)
 
 //@ts-ignore
 router.route('/funnel').delete(Validateuser, DeleteFunnel)
+
+//@ts-ignore
+router.route('/funnel').put(Validateuser, EditFunnel)
 
 //@ts-ignore
 router.route('/opt-form').post(InsertNewOptSubmit)
