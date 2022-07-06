@@ -10,7 +10,7 @@ export const UploadFile = async (req: Request, res: Response) => {
 		const {type} = req.query
 
 		//@ts-ignore
-		// const {_id: UserId} = req.user
+		const {_id: UserId} = req.user
 
 		if (!type || type === '') {
 			return res.status(400).json({
