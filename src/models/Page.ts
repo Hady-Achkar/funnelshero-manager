@@ -33,12 +33,12 @@ export const PageSchema = new Schema<IPage>(
 		timestamps: true,
 		versionKey: false,
 		minimize: false,
-	},
+	}
 )
 PageSchema.index({
 	title: 'text',
 })
-PageSchema.pre('save', async function(next) {
+PageSchema.pre('save', async function (next) {
 	if (this.title === 'Home') {
 		this.link = `/`
 		next()

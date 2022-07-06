@@ -20,6 +20,7 @@ import {
 	MakeFunnelAsTemplate,
 	GetAllTemplates,
 	UploadFile,
+	DuplicateFunnel,
 } from '../controllers'
 import {Validateuser} from '../middlewares'
 
@@ -80,4 +81,7 @@ router.route('/upload').post(UploadFile)
 
 //@ts-ignore
 router.route('/submits').get(GetOptSumbits)
+
+//@ts-ignore
+router.route('/duplicate-funnel').post(Validateuser, DuplicateFunnel)
 export default router
