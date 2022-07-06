@@ -77,7 +77,7 @@ router.route('/template').get(GetAllTemplates)
 router.route('/template/funnel').post(CreateFunnelFromTemplate)
 
 //@ts-ignore
-router.route('/upload').post(UploadFile)
+router.route('/upload').post(Validateuser, UploadFile)
 
 //@ts-ignore
 router.route('/submits').get(GetOptSumbits)
