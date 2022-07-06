@@ -1,14 +1,15 @@
 //@ts-nocheck
-import {S3Driver} from '../lib'
+import {S3Client} from '../lib'
 import multer from 'multer'
 import {v4} from 'uuid'
 import {S3 as AmazonS3} from 'aws-sdk'
 import {Request, Response} from 'express'
-import {AuthedUser} from '../types'
 
-export const UploadFile = async (req: AuthedUser, res: Response) => {
+export const UploadFile = async (req: Request, res: Response) => {
 	try {
 		const {type} = req.query
+
+		//@ts-ignore
 		const {_id: UserId} = req.user
 		if (!type || type === '') {
 			return res.status(400).json({
@@ -58,7 +59,7 @@ export const UploadFile = async (req: AuthedUser, res: Response) => {
 				ContentEncoding: req?.files?.file?.encoding,
 			}
 
-			S3Driver.upload(params, (err, _) => {
+			S3Client.upload(params, (err, _) => {
 				if (err) {
 					console.log('file error: ' + err)
 				} else {
@@ -66,7 +67,7 @@ export const UploadFile = async (req: AuthedUser, res: Response) => {
 				}
 			})
 		})
-		const {protocol} = S3Driver.endpoint
+		const {protocol} = S3Client.endpoint
 		return res.status(200).json({
 			status: 'Success',
 			message: 'File uploaded successfully',
