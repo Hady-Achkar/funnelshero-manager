@@ -36,7 +36,7 @@ export default async (req: Request, res: Response) => {
 			default:
 				break
 		}
-		const DIR = `Drops-hero/assets/${randomName}${fileType}`
+		const DIR = `Funnels-hero/assets/${randomName}${fileType}`
 		let upload = multer().single('file')
 
 		upload(req, res, function (err) {

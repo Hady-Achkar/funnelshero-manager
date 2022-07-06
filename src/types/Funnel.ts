@@ -22,6 +22,7 @@ export interface IFunnel extends Document {
 	category: string
 	createdAt: Date
 	updatedAt: Date
+	thumbnail: string
 	baseDomain: string
 	favIcon: string
 	proDomain: string
