@@ -10,6 +10,7 @@ import {IndexRouter} from './routes'
 const main = async () => {
 	dotenv.config()
 
+	connectDB()
 	const app = express()
 	app.use(cors())
 
