@@ -21,14 +21,18 @@ import {
 	GetAllTemplates,
 	UploadFile,
 	DuplicateFunnel,
+	DuplicatePage,
 } from '../controllers'
 import {Validateuser} from '../middlewares'
 
 const router = express.Router()
+
 //@ts-ignore
 router.route('/new-funnel').post(Validateuser, NewFunnel)
+
 //@ts-ignore
 router.route('/get-funnel').get(Validateuser, GetFunnel)
+
 //@ts-ignore
 router.route('/new-page').post(Validateuser, NewPage)
 //@ts-ignore
@@ -84,4 +88,7 @@ router.route('/submits').get(GetOptSumbits)
 
 //@ts-ignore
 router.route('/duplicate-funnel').post(Validateuser, DuplicateFunnel)
+
+//@ts-ignore
+router.route('/duplicate-page').post(Validateuser, DuplicatePage)
 export default router
